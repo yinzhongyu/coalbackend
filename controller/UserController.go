@@ -52,9 +52,6 @@ func Register(ctx *gin.Context) {
 	name := requestUser.Name
 	telephone := requestUser.Telephone
 	password := requestUser.Password
-	fmt.Println(password)
-	fmt.Println()
-	fmt.Println()
 	if len(telephone) != 11 {
 		//ctx.JSON(http.StatusUnprocessableEntity,gin.H{
 		//	"code":422,
@@ -163,10 +160,6 @@ func Login(ctx *gin.Context) {
 	}
 	//判断密码(用户密码不能明文保存)
 	//arg1:查询的密码，arg2:传参的密码
-	fmt.Println()
-	fmt.Println()
-	fmt.Println(user.Password)
-	fmt.Println(password)
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{
 			"code": 400,

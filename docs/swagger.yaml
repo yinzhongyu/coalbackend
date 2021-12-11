@@ -241,6 +241,74 @@ paths:
       summary: 撤销证书
       tags:
       - 接口类别
+  /chain/invoke:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: 方法名
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: 参数json
+        in: query
+        name: args
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 调用链码
+      tags:
+      - 链码相关
+  /chain/query:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: 方法名
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: 参数列表
+        in: query
+        items:
+          type: string
+        name: args
+        required: true
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 调用链码
+      tags:
+      - 链码相关
   /coal/GetGenElectricityUse:
     post:
       consumes:

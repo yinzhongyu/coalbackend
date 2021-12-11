@@ -16,6 +16,8 @@ func CollectRoute(r *gin.Engine) *gin.Engine {
 	r.POST("/api/v1/auth/register", controller.Register)
 	r.POST("/api/v1/auth/login", controller.Login)
 	r.GET("/api/v1/auth/info", middleWare.AuthMiddleware(), controller.Info) //使用中间件保护用户信息接口
+	r.POST("api/v1/chain/invoke",controller.ChainInvoke)
+	r.POST("api/v1/chain/query",controller.ChainQuery)
 	//r.POST("api/v1/coal/getOneBalance",middleWare.AuthMiddleware(),controller.ViewOneCoalBalance)
 
 	return r

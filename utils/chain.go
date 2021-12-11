@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"ginVue/utils/http"
 	"github.com/spf13/viper"
+	"log"
 )
 
 var (
@@ -33,11 +34,11 @@ type QueryReq struct {
 	Version  string        `json:"version"`
 	Category string        `json:"category"`
 	Method   string        `json:"method"`
-	Args     []interface{} `json:"args"`
+	Args     interface{}    `json:"args"`
 	Name     string        `json:"name"`
 }
 
-func Invoke(method string, arg ...interface{}) error {
+func Invoke(method string, arg interface{}) error {
 	chainUrl := fmt.Sprintf("https://%s:%s/v2/tx/sc/invoke?ledger=%s", hostname, port, ledger)
 	args := arg
 	QR := QueryReq{
@@ -48,6 +49,7 @@ func Invoke(method string, arg ...interface{}) error {
 	}
 	body, _ := json.Marshal(QR)
 
+	fmt.Println("打印Body")
 	fmt.Println(string(body))
 
 	fmt.Println()
@@ -60,13 +62,13 @@ func Invoke(method string, arg ...interface{}) error {
 	json.Unmarshal(res, &resp)
 	fmt.Printf("%+v\n", resp)
 	if resp.State != 200 {
-		return nil
-	} else {
 		return errors.New("调用失败！")
+	} else {
+		return nil
 	}
 }
 
-func Query(method string, arg ...interface{}) (error, string) {
+func Query(method string, arg interface{}) (error, string) {
 	chainUrl := fmt.Sprintf("https://%s:%s/v2/tx/sc/query?ledger=%s", hostname, port, ledger)
 	args := arg
 	QR := QueryReq{
@@ -76,8 +78,8 @@ func Query(method string, arg ...interface{}) (error, string) {
 		Args:     args,
 	}
 	body, _ := json.Marshal(QR)
-
-	fmt.Println()
+	log.Println("发送请求body为")
+	log.Println(string(body))
 	_, res, err := http.NewClient().Post(chainUrl, string(body))
 	if err != nil {
 		fmt.Errorf("POST url[%v] failed, err:%v", chainUrl, err)
@@ -86,9 +88,9 @@ func Query(method string, arg ...interface{}) (error, string) {
 	var resp QueryResp
 	json.Unmarshal(res, &resp)
 	//fmt.Printf("%+v\n", resp)
-	if resp.State == 200 {
-		return nil, resp.Data.Result
+	if resp.State != 200 {
+		return errors.New("调用失败-----"+resp.Message), ""
 	} else {
-		return errors.New("调用失败！"), ""
+		return nil, resp.Data.Result
 	}
 }
