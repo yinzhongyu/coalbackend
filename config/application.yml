@@ -1,0 +1,15 @@
+server:
+  port: 8081
+datasource:
+  driverName: mysql
+  host: localhost
+  port: 3306
+  database: gin
+  username: root
+  password: 123456
+  charset: utf8
+chain:
+  hostname : dev-env.wutongchain.com
+  port     : 49080
+  ledger   : jingangsai
+  name     : ba79d9f9b9ba4d7674f12361d432a0c6cd1bff188eecd84e2ed93aafa5d9027c
