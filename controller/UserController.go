@@ -1,6 +1,11 @@
 package controller
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
+	"fmt"
 	"ginVue/common"
 	"ginVue/dto"
 	"ginVue/model"
@@ -43,10 +48,13 @@ func Register(ctx *gin.Context) {
 
 	//方法3 gin提供的bind
 	var requestUser = model.User{}
-	ctx.Bind(&requestUser)
+	ctx.ShouldBind(&requestUser)
 	name := requestUser.Name
 	telephone := requestUser.Telephone
 	password := requestUser.Password
+	fmt.Println(password)
+	fmt.Println()
+	fmt.Println()
 	if len(telephone) != 11 {
 		//ctx.JSON(http.StatusUnprocessableEntity,gin.H{
 		//	"code":422,
@@ -85,10 +93,16 @@ func Register(ctx *gin.Context) {
 		response.Response(ctx, http.StatusUnprocessableEntity, 500, nil, "加密错误")
 		return
 	}
+
+	//获取公钥
+	_,publickey:=genRsaKey()
+
+
 	user := model.User{
 		Telephone: telephone,
 		Name:      name,
 		Password:  string(hashPwd),
+		PublicKey: string(publickey),
 	}
 	DB.Create(&user)
 	//发放token
@@ -101,7 +115,7 @@ func Register(ctx *gin.Context) {
 		log.Printf("token generates error :%v", err)
 		return
 	}
-	response.Success(ctx, gin.H{"token": token}, "注册成功")
+	response.Success(ctx, gin.H{"token": token,"publickey":user.PublicKey}, "注册成功")
 }
 
 //
@@ -120,6 +134,10 @@ func Login(ctx *gin.Context) {
 	DB := common.GetDB()
 	telephone := ctx.PostForm("telephone")
 	password := ctx.PostForm("password")
+
+
+	fmt.Println(telephone)
+	fmt.Println(password)
 	if len(telephone) != 11 {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{
 			"code": 422,
@@ -145,6 +163,10 @@ func Login(ctx *gin.Context) {
 	}
 	//判断密码(用户密码不能明文保存)
 	//arg1:查询的密码，arg2:传参的密码
+	fmt.Println()
+	fmt.Println()
+	fmt.Println(user.Password)
+	fmt.Println(password)
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{
 			"code": 400,
@@ -152,6 +174,7 @@ func Login(ctx *gin.Context) {
 		})
 		return
 	}
+
 	//发放token
 	token, err := common.ReleaseToken(user)
 	if err != nil {
@@ -182,4 +205,35 @@ func Info(ctx *gin.Context) {
 		"code": 200,
 		"user": dto.ToUserDto(user.(model.User)), //类型断言r
 	})
+}
+
+
+//RSA公钥私钥产生
+func genRsaKey() (prvkey, pubkey []byte) {
+	// 生成私钥文件
+	privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
+	if err != nil {
+		panic(err)
+	}
+	derStream := x509.MarshalPKCS1PrivateKey(privateKey)
+
+	block := &pem.Block{
+		Type:  "RSA PRIVATE KEY",
+		Bytes: derStream,
+	}
+	prvkey = pem.EncodeToMemory(block)
+	publicKey := &privateKey.PublicKey
+	derPkix, err := x509.MarshalPKIXPublicKey(publicKey)
+	//pubkey,_=hex.DecodeString(string(derPkix))
+
+
+	if err != nil {
+		panic(err)
+	}
+	block = &pem.Block{
+		Bytes: derPkix,
+	}
+	pubkey = pem.EncodeToMemory(block)
+
+	return
 }

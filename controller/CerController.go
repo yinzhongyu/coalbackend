@@ -1,6 +1,8 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 //
 // RegisterCer
@@ -15,8 +17,9 @@ import "github.com/gin-gonic/gin"
 //  @Router /cer/registerCer [post]
 func RegisterCer(ctx *gin.Context) {
 	//获得公钥
-	publickey := ctx.Get("key")
+	//publickey := ctx.Get("key")
 	//查询此公钥是否已经有证书了
+	//utils.Query()
 	//若没有 则调用注册合约
 	//返回结果信息
 }

@@ -36,7 +36,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "接口类别"
+                    "用户管理"
                 ],
                 "summary": "获取个人信息",
                 "parameters": [
@@ -140,6 +140,300 @@ var doc = `{
                         "name": "password",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "权限级别 2.煤炭场 3.普通用户",
+                        "name": "kind",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/cer/GetAllCer": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "接口类别"
+                ],
+                "summary": "获取所有证书",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/cer/GetOneCer": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "接口类别"
+                ],
+                "summary": "获取一个证书",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "煤炭场公钥",
+                        "name": "coalPublicKey",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/cer/approvalCer": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "证书管理"
+                ],
+                "summary": "审批证书",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "煤炭场公钥",
+                        "name": "coalPublicKey",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "秘钥",
+                        "name": "coalName",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/cer/registerCer": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "证书管理"
+                ],
+                "summary": "注册证书",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/cer/revokeCer": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "接口类别"
+                ],
+                "summary": "撤销证书",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "煤炭场公钥",
+                        "name": "coalPublicKey",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/coal/GetGenElectricityUse": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "煤炭使用数据管理"
+                ],
+                "summary": "发电用煤数据",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/coal/GetOneTx": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "煤炭场使用数据管理"
+                ],
+                "summary": "查看一个煤炭场的交易记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "煤炭场名字",
+                        "name": "coalName",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -170,6 +464,42 @@ var doc = `{
                     "煤炭场数据管理"
                 ],
                 "summary": "获取所有煤炭场的煤炭余量",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户令牌",
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CommonDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/coal/getAllUse": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "煤炭使用数据管理"
+                ],
+                "summary": "查看所有煤炭使用数据",
                 "parameters": [
                     {
                         "type": "string",
@@ -237,7 +567,7 @@ var doc = `{
                 }
             }
         },
-        "/posts2": {
+        "/index/DestroyIndex": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -246,9 +576,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "指标发放管理"
+                    "指标管理"
                 ],
-                "summary": "政府发放指标",
+                "summary": "删除某个煤炭场的指标",
                 "parameters": [
                     {
                         "type": "string",
@@ -260,6 +590,13 @@ var doc = `{
                         "type": "string",
                         "description": "煤炭场名字",
                         "name": "coalName",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "指标数量",
+                        "name": "num",
                         "in": "query",
                         "required": true
                     }
@@ -280,7 +617,7 @@ var doc = `{
                 }
             }
         },
-        "/use/GetGenElectricityUse": {
+        "/index/UseIndex": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -289,15 +626,36 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "煤炭使用数据管理"
+                    "指标管理"
                 ],
-                "summary": "发电用煤数据",
+                "summary": "使用指标",
                 "parameters": [
                     {
                         "type": "string",
                         "description": "用户令牌",
                         "name": "Authorization",
                         "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "使用人名字",
+                        "name": "coalName",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "使用方法",
+                        "name": "coalName",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "指标数量",
+                        "name": "num",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -316,7 +674,7 @@ var doc = `{
                 }
             }
         },
-        "/use/getAllUse": {
+        "/index/transferIndex": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -325,15 +683,36 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "煤炭使用数据管理"
+                    "指标管理"
                 ],
-                "summary": "查看所有煤炭使用数据",
+                "summary": "转移指标",
                 "parameters": [
                     {
                         "type": "string",
                         "description": "用户令牌",
                         "name": "Authorization",
                         "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "起点名字",
+                        "name": "from",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "终点名字",
+                        "name": "to",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "指标数量",
+                        "name": "num",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {

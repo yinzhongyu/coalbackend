@@ -37,7 +37,7 @@ paths:
             $ref: '#/definitions/dto.CommonDto'
       summary: 获取个人信息
       tags:
-      - 接口类别
+      - 用户管理
   /auth/login:
     post:
       consumes:
@@ -87,6 +87,11 @@ paths:
         name: password
         required: true
         type: string
+      - description: 权限级别 2.煤炭场 3.普通用户
+        in: query
+        name: kind
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -101,6 +106,192 @@ paths:
       summary: 用户注册
       tags:
       - 用户管理
+  /cer/GetAllCer:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 获取所有证书
+      tags:
+      - 接口类别
+  /cer/GetOneCer:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: 煤炭场公钥
+        in: query
+        name: coalPublicKey
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 获取一个证书
+      tags:
+      - 接口类别
+  /cer/approvalCer:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: 煤炭场公钥
+        in: query
+        name: coalPublicKey
+        required: true
+        type: string
+      - description: 秘钥
+        in: query
+        name: coalName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 审批证书
+      tags:
+      - 证书管理
+  /cer/registerCer:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 注册证书
+      tags:
+      - 证书管理
+  /cer/revokeCer:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: 煤炭场公钥
+        in: query
+        name: coalPublicKey
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 撤销证书
+      tags:
+      - 接口类别
+  /coal/GetGenElectricityUse:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 发电用煤数据
+      tags:
+      - 煤炭使用数据管理
+  /coal/GetOneTx:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: 煤炭场名字
+        in: query
+        name: coalName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 查看一个煤炭场的交易记录
+      tags:
+      - 煤炭场使用数据管理
   /coal/getAllBalance:
     post:
       consumes:
@@ -124,6 +315,29 @@ paths:
       summary: 获取所有煤炭场的煤炭余量
       tags:
       - 煤炭场数据管理
+  /coal/getAllUse:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.CommonDto'
+      summary: 查看所有煤炭使用数据
+      tags:
+      - 煤炭使用数据管理
   /coal/getOneBalance:
     post:
       consumes:
@@ -152,7 +366,7 @@ paths:
       summary: 获取一个煤炭场的余量
       tags:
       - 煤炭场数据管理
-  /posts2:
+  /index/DestroyIndex:
     post:
       consumes:
       - application/json
@@ -166,6 +380,11 @@ paths:
         name: coalName
         required: true
         type: string
+      - description: 指标数量
+        in: query
+        name: num
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -177,10 +396,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dto.CommonDto'
-      summary: 政府发放指标
+      summary: 删除某个煤炭场的指标
       tags:
-      - 指标发放管理
-  /use/GetGenElectricityUse:
+      - 指标管理
+  /index/UseIndex:
     post:
       consumes:
       - application/json
@@ -189,6 +408,21 @@ paths:
         in: header
         name: Authorization
         type: string
+      - description: 使用人名字
+        in: query
+        name: coalName
+        required: true
+        type: string
+      - description: 使用方法
+        in: query
+        name: coalName
+        required: true
+        type: string
+      - description: 指标数量
+        in: query
+        name: num
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -200,10 +434,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dto.CommonDto'
-      summary: 发电用煤数据
+      summary: 使用指标
       tags:
-      - 煤炭使用数据管理
-  /use/getAllUse:
+      - 指标管理
+  /index/transferIndex:
     post:
       consumes:
       - application/json
@@ -212,6 +446,21 @@ paths:
         in: header
         name: Authorization
         type: string
+      - description: 起点名字
+        in: query
+        name: from
+        required: true
+        type: string
+      - description: 终点名字
+        in: query
+        name: to
+        required: true
+        type: string
+      - description: 指标数量
+        in: query
+        name: num
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -223,7 +472,7 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dto.CommonDto'
-      summary: 查看所有煤炭使用数据
+      summary: 转移指标
       tags:
-      - 煤炭使用数据管理
+      - 指标管理
 swagger: "2.0"

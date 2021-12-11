@@ -12,7 +12,7 @@ var jwtKey = []byte("dGhpc19pc19hX3NlY3JldF9rZXk=")
 // 具体业务数据
 type Claims struct {
 	UserId    uint
-	Kind      int
+	Kind      string
 	PublicKey string
 	jwt.StandardClaims
 }
